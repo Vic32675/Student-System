@@ -49,10 +49,10 @@ public class Student extends Person {
             throw new IllegalArgumentException("Student not enrolled in course.");
         }
 
-        // Retrieve the score associated with this course
+        // Retrieve the score associated with  course
         Score score = scores.get(course);
 
-        // If the score object doesn't exist, create a default one with 0 marks for both CAT and exam
+        // If the score object doesn't exist, create a default one with 0 marks
         if (score == null) {
             score = new Score();
         }

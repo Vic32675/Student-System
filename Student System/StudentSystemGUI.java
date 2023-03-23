@@ -18,8 +18,43 @@ public class StudentSystemGUI {
         add_student_button.addActionListener(e -> {
             JFrame addStudentFrame = new JFrame("Add Student");
 
+            JPanel panel = new JPanel(new GridLayout(4, 2, 10, 10));
+            panel.add(new JLabel("Registration Number: "));
+            JTextField regNoField = new JTextField();
+            panel.add(regNoField);
+            panel.add(new JLabel("Name: "));
+            JTextField nameField = new JTextField();
+            panel.add(nameField);
+            panel.add(new JLabel("Course: "));
+            JTextField courseField = new JTextField();
+            panel.add(courseField);
+            JButton addStudentButton = new JButton("Add Student");
+            addStudentButton.addActionListener(e1 -> {
+                String regNo = regNoField.getText();
+                String name = nameField.getText();
+                String course = courseField.getText();
+
+                // Insert new student record into database
+                try {
+                    Connection conn = DatabaseConnector.getConnection();
+                    PreparedStatement stmt = conn.prepareStatement("INSERT INTO students(reg_no, name, course) VALUES (?, ?, ?)");
+                    stmt.setString(1, regNo);
+                    stmt.setString(2, name);
+                    stmt.setString(3, course);
+                    stmt.executeUpdate();
+                    JOptionPane.showMessageDialog(addStudentFrame, "Student added successfully.");
+                } catch (SQLException e2) {
+                    e2.printStackTrace();
+                    JOptionPane.showMessageDialog(addStudentFrame, "Error adding student.");
+                }
+            });
+            panel.add(new JLabel());
+            panel.add(addStudentButton);
+
+            addStudentFrame.getContentPane().add(panel);
             addStudentFrame.pack();
             addStudentFrame.setVisible(true);
+
         });
         JButton view_students_button = new JButton("View Students");
         view_students_button.addActionListener(e -> {
@@ -32,6 +67,35 @@ public class StudentSystemGUI {
         add_course_button.addActionListener(e -> {
             JFrame addCourseFrame = new JFrame("Add Course");
 
+            JPanel panel = new JPanel(new GridLayout(3, 2, 10, 10));
+            panel.add(new JLabel("Course Code: "));
+            JTextField courseCodeField = new JTextField();
+            panel.add(courseCodeField);
+            panel.add(new JLabel("Course Name: "));
+            JTextField courseNameField = new JTextField();
+            panel.add(courseNameField);
+            JButton addCourseButton = new JButton("Add Course");
+            addCourseButton.addActionListener(e1 -> {
+                String courseCode = courseCodeField.getText();
+                String courseName = courseNameField.getText();
+
+                // Insert new course record into database
+                try {
+                    Connection conn = DatabaseConnector.getConnection();
+                    PreparedStatement stmt = conn.prepareStatement("INSERT INTO courses(code, name) VALUES (?, ?)");
+                    stmt.setString(1, courseCode);
+                    stmt.setString(2, courseName);
+                    stmt.executeUpdate();
+                    JOptionPane.showMessageDialog(addCourseFrame, "Course added successfully.");
+                } catch (SQLException e2) {
+                    e2.printStackTrace();
+                    JOptionPane.showMessageDialog(addCourseFrame, "Error adding course.");
+                }
+            });
+            panel.add(new JLabel());
+            panel.add(addCourseButton);
+
+            addCourseFrame.getContentPane().add(panel);
             addCourseFrame.pack();
             addCourseFrame.setVisible(true);
         });
