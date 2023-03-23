@@ -2,14 +2,17 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.*;
 
 public class StudentSystemGUI {
+    private Connection conn; // database connection
+    private JTextField search_field;
+    private String searchTerm;
 
     public StudentSystemGUI() {
-        JFrame master = new JFrame("Student System");
+        JFrame master = new JFrame("Chuka Uni");
 
-
-        JLabel title_label = new JLabel("Student System");
+        JLabel title_label = new JLabel("Chuka Student System");
         title_label.setFont(new Font("Arial", Font.BOLD, 24));
         JButton add_student_button = new JButton("Add Student");
         add_student_button.addActionListener(e -> {
@@ -39,7 +42,7 @@ public class StudentSystemGUI {
             viewCoursesFrame.pack();
             viewCoursesFrame.setVisible(true);
         });
-        JTextField search_field = new JTextField();
+        search_field = new JTextField();
         JButton search_button = new JButton("Search");
         search_button.addActionListener(e -> handle_search());
 
@@ -58,6 +61,13 @@ public class StudentSystemGUI {
         master.pack();
         master.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         master.setVisible(true);
+
+        // establish database connection
+        try {
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/student_system", "username", "password");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     private void handle_add_student() {
@@ -77,7 +87,21 @@ public class StudentSystemGUI {
     }
 
     private void handle_search() {
-
+        searchTerm = search_field.getText();
+        try {
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM courses WHERE name LIKE ?");
+            stmt.setString(1, "%" + searchTerm + "%");
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                String courseName = rs.getString("name");
+                String courseCode = rs.getString("code");
+                JOptionPane.showMessageDialog(null, "Course found: " + courseName + " (" + courseCode + ")");
+            } else {
+                JOptionPane.showMessageDialog(null, "No courses found.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) {
