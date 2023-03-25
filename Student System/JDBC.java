@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 public class JDBC {
 
-    final static String DRIVER = "org.mariadb.jdbc.driver";
+    final static String DRIVER = "org.mariadb.jdbc.Driver";
     final static String DBURL = "jdbc:mariadb://localhost:3306/studentsystem";
     final static String USER="root";
     final static String KEY = "password";
@@ -22,8 +22,8 @@ public class JDBC {
 
         try{
             Class.forName(DRIVER);
-            Connection conn = DriverManager.getConnection(DBURL,USER,KEY);
-            Statement stmt = conn.createStatement();
+            conn = DriverManager.getConnection(DBURL,USER,KEY);
+            stmt = conn.createStatement();
 
 
             return conn;
