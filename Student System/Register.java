@@ -121,7 +121,7 @@ public class Register extends JFrame {
 private boolean registerUser(String name, String regNo, String phoneNo, String passwrd){
         boolean isSuccess = false;
         try {
-            Connection conn = DatabaseConnector.getConnection();
+            Connection conn = new JDBC().connection();
 
             PreparedStatement stmt = conn.prepareStatement("INSERT INTO students (name, reg_no, phone_no, password) VALUES (?, ?, ?, ?)");
             stmt.setString(1, name);
