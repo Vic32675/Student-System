@@ -29,6 +29,10 @@ public class Homepage extends JFrame {
 
         viewLecturer = new JButton("Lectures");
         homePanel.add(viewLecturer);
+        viewLecturer.addActionListener(e -> {
+            Lecturer lecturerwindow = new Lecturer();
+            lecturerwindow.setVisible(true);
+        });
 
         add(homePanel);
         pack();

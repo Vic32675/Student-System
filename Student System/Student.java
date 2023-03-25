@@ -1,18 +1,41 @@
+import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Student extends Person {
+public class Student extends JFrame {
+    private Person person;
     private String regNo;
     private String programme;
     private List<Course> courses;
     private Map<Course, Score> scores;
+    private JPanel studentPanel;
+    private JLabel studentNameLabel;
+    private JLabel regNoLabel;
+    private JLabel programLabel;
 
-    //student constructor
+    public Student(){
+        setTitle("Your Details");
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        getContentPane().setBackground(Color.BLACK);
+
+        studentPanel = new JPanel();
+        studentPanel.setLayout(new BoxLayout(studentPanel, BoxLayout.Y_AXIS));
+
+        studentNameLabel = new JLabel("Name:");
+        studentPanel.add(studentNameLabel);
+
+        regNoLabel = new JLabel("Reg Number:");
+        studentPanel.add(regNoLabel);
+
+        programLabel = new JLabel("Your Program:");
+        studentPanel.add(programLabel);
+    }
 
     public Student(String name, int age, String regNo, String programme){
-        super(name, age);
+        this.person = new Person(name, age);
         this.regNo = regNo;
         this.programme = programme;
         this.courses = new ArrayList<>();

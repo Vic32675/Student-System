@@ -10,7 +10,7 @@ public class Login extends JFrame {
     private JLabel regNoLabel;
     private JTextField regNoField;
     private JLabel passwrdLabel;
-    private JTextField passwrdField;
+    private JPasswordField passwrdField;
     private JButton loginButton;
     private JLabel registerLabel;
     private JButton registerButton;
@@ -18,6 +18,7 @@ public class Login extends JFrame {
     public Login(){
         setTitle("Login");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        getContentPane().setBackground(Color.BLACK);
 
         //login panel
 
@@ -27,6 +28,7 @@ public class Login extends JFrame {
         //Add regfiels and label
 
         regNoLabel = new JLabel("Registration number");
+        regNoLabel.setIcon(new ImageIcon("Icons/regNo.png"));
         loginPanel.add(regNoLabel);
         regNoField = new JTextField(20);
         loginPanel.add(regNoField);
@@ -35,17 +37,30 @@ public class Login extends JFrame {
         //Add passwrd fields and labels
 
         passwrdLabel = new JLabel("Password:");
+        passwrdLabel.setIcon(new ImageIcon("Icons/key.png"));
         loginPanel.add(passwrdLabel);
-        passwrdField = new JTextField(20);
+        passwrdField = new JPasswordField(20);
         loginPanel.add(passwrdField);
 
         //login
         //button
         loginButton = new JButton("Login");
         loginPanel.add(loginButton);
-        loginButton.addActionListener(e -> {
-            Homepage homepagewindow = new Homepage();
-            homepagewindow.setVisible(true);
+        loginButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String regNo = regNoField.getText();
+                String passwrd = passwrdField.getText();
+
+                //check if details are correct/valid
+                if (authenticateUser(regNo, passwrd)){
+                    Homepage homepagewindow = new Homepage();
+                    homepagewindow.setVisible(true);
+                    dispose();  //close login
+                }else {
+                    JOptionPane.showMessageDialog(Login.this, "Invaliid regNo or Password");
+                }
+            }
         });
 
         //register option
@@ -65,8 +80,34 @@ public class Login extends JFrame {
          setVisible(true);
 
     }
+    // Method to authenticate user
+    private boolean authenticateUser(String regNo, String passwrd) {
+        boolean isValid = false;
+        try {
+            // Get a connection to the database
+            Connection conn = DatabaseConnector.getConnection();
 
-    public static void main(String[] args) {
-        Login login = new Login();
+            // Create a prepared statement to check if the user exists and the password is correct
+            PreparedStatement stmt = conn.prepareStatement("SELECT COUNT(*) FROM users WHERE reg_no = ? AND password = ?");
+            stmt.setString(1, regNo);
+            stmt.setString(2, passwrd);
+
+            // Execute the query and check the result
+            ResultSet rs = stmt.executeQuery();
+            rs.next();
+            if (rs.getInt(1) > 0) {
+                isValid = true; // User exists and password is correct
+            }
+
+            // Close the result set, statement, and connection
+            rs.close();
+            stmt.close();
+            conn.close();
+        } catch (SQLException ex) {
+            // Handle any errors
+            ex.printStackTrace();
+        }
+        return isValid;
     }
+
 }

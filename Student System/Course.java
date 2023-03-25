@@ -35,8 +35,10 @@ public class Course extends JFrame {
         addCourseField = new JTextField();
         viewCoursePanel.add(addCourseField);
 
-        pack();
+
+
         add(viewCoursePanel);
+        pack();
         setVisible(true);
 
     }
