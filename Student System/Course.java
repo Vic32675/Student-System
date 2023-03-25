@@ -1,12 +1,17 @@
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Course{
+public class Course extends JFrame {
     private String courseCode;
     private String title;
     private Lecturer lecturer;
     private List<Student> students;
     private List<Score> scores;
+    private JPanel viewCoursePanel;
+    private  JLabel addCourseLabel;
+    private JTextField addCourseField;
+
     public Course(String courseCode, String title){
         this.courseCode = courseCode;
         this.title = title;
@@ -15,6 +20,27 @@ public class Course{
         lecturer.allocateCourse(this);
 
     }
+
+    public Course() {
+        setTitle("Courses");
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+
+        viewCoursePanel = new JPanel();
+        viewCoursePanel.setLayout(new BoxLayout(viewCoursePanel, BoxLayout.Y_AXIS));
+
+        addCourseLabel = new JLabel("Add Course");
+        viewCoursePanel.add(addCourseLabel);
+
+        addCourseField = new JTextField();
+        viewCoursePanel.add(addCourseField);
+
+        pack();
+        add(viewCoursePanel);
+        setVisible(true);
+
+    }
+
     public void allocateLecturer(Lecturer lecturer){
         this.lecturer = lecturer;
     }
@@ -48,5 +74,6 @@ public class Course{
     public List<Score> getScores() {
         return scores;
     }
+
 
 }
