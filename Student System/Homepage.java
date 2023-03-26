@@ -1,4 +1,6 @@
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Homepage extends JFrame {
     private JPanel homePanel;
@@ -30,6 +32,13 @@ public class Homepage extends JFrame {
 
         viewBooks = new JButton("View Library");
         homePanel.add(viewBooks);
+        viewBooks.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Book bookwindow = new Book();
+                bookwindow.setVisible(true);
+            }
+        });
 
         viewLecturer = new JButton("Lectures");
         homePanel.add(viewLecturer);

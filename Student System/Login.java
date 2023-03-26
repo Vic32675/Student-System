@@ -84,22 +84,21 @@ public class Login extends JFrame {
     private boolean authenticateUser(String regNo, String passwrd) {
         boolean isValid = false;
         try {
-            // Get a connection to the database
+
             Connection conn = new JDBC().connection();
 
-            // Create a prepared statement to check if the user exists and the password is correct
             PreparedStatement stmt = conn.prepareStatement("SELECT COUNT(*) FROM student WHERE reg_no = ? AND password = ?");
             stmt.setString(1, regNo);
             stmt.setString(2, passwrd);
 
-            // Execute the query and check the result
+
             ResultSet rs = stmt.executeQuery();
             rs.next();
             if (rs.getInt(1) > 0) {
-                isValid = true; // User exists and password is correct
+                isValid = true;
             }
 
-            // Close the result set, statement, and connection
+
             rs.close();
             stmt.close();
             conn.close();
