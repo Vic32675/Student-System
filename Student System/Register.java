@@ -123,7 +123,7 @@ private boolean registerUser(String name, String regNo, String phoneNo, String p
         try {
             Connection conn = new JDBC().connection();
 
-            PreparedStatement stmt = conn.prepareStatement("INSERT INTO students (name, reg_no, phone_no, password) VALUES (?, ?, ?, ?)");
+            PreparedStatement stmt = conn.prepareStatement("INSERT INTO student (name, regNo, phoneNo, password) VALUES (?, ?, ?, ?)");
             stmt.setString(1, name);
             stmt.setString(2, regNo);
             stmt.setString(3, phoneNo);

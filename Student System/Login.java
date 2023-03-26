@@ -88,7 +88,7 @@ public class Login extends JFrame {
             Connection conn = new JDBC().connection();
 
             // Create a prepared statement to check if the user exists and the password is correct
-            PreparedStatement stmt = conn.prepareStatement("SELECT COUNT(*) FROM students WHERE reg_no = ? AND password = ?");
+            PreparedStatement stmt = conn.prepareStatement("SELECT COUNT(*) FROM student WHERE reg_no = ? AND password = ?");
             stmt.setString(1, regNo);
             stmt.setString(2, passwrd);
 

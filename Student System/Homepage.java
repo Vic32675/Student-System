@@ -16,6 +16,10 @@ public class Homepage extends JFrame {
 
         studentDetails = new JButton("Your Details");
         homePanel.add(studentDetails);
+        studentDetails.addActionListener(e -> {
+            Student studentwindow = new Student();
+            studentwindow.setVisible(true);
+        });
 
         viewCourses = new JButton("View Courses");
         homePanel.add(viewCourses);

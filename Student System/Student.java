@@ -1,5 +1,10 @@
 import javax.swing.*;
 import java.awt.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -7,23 +12,26 @@ import java.util.Map;
 
 public class Student extends JFrame {
     private Person person;
-    private String regNo;
-    private String programme;
-    private List<Course> courses;
-    private Map<Course, Score> scores;
+    //private String programme;
+    //private List<Course> courses;
+    //private Map<Course, Score> scores;
     private JPanel studentPanel;
     private JLabel studentNameLabel;
     private JLabel regNoLabel;
     private JLabel programLabel;
+    private JDBC jdbc;
+    private JButton studentfinacialButton;
 
-    public Student(){
+
+    public Student() {
         setTitle("Your Details");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         getContentPane().setBackground(Color.BLACK);
 
+        jdbc = new JDBC();
+
         studentPanel = new JPanel();
         studentPanel.setLayout(new BoxLayout(studentPanel, BoxLayout.Y_AXIS));
-
         studentNameLabel = new JLabel("Name:");
         studentPanel.add(studentNameLabel);
 
@@ -32,26 +40,65 @@ public class Student extends JFrame {
 
         programLabel = new JLabel("Your Program:");
         studentPanel.add(programLabel);
+
+        studentfinacialButton = new JButton("View financials");
+        studentPanel.add(studentfinacialButton);
+        studentfinacialButton.addActionListener(e -> {
+            Financial financialwindow = new Financial();
+            financialwindow.setVisible(true);
+        });
+
+
+
+
+        try {
+            // Connect to the database
+            Connection conn = jdbc.connection();
+
+            // Prepare the SQL query
+            String sql = "SELECT name, regNo, program FROM student WHERE id = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, 123); // replace 123 with the actual ID of the student
+
+            // Execute the query and retrieve the results
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                // Set the student details in the labels
+                studentNameLabel.setText("Name: " + rs.getString("name"));
+                regNoLabel.setText("Reg Number: " + rs.getString("regNo"));
+                programLabel.setText("Your Program: " + rs.getString("program"));
+            }
+
+            // Close the database resources
+            rs.close();
+            stmt.close();
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        add(studentPanel);
+        pack();
+        setVisible(true);
     }
 
-    public Student(String name, int age, String regNo, String programme){
+    /*public Student(String name, int age, String regNo, String programme) {
         this.person = new Person(name, age);
         this.regNo = regNo;
         this.programme = programme;
         this.courses = new ArrayList<>();
         this.scores = new HashMap<>();
-
     }
 
-    public String getRegNo(){
-
+    public String getRegNo() {
         return regNo;
-
     }
-    public String getProgramme(){
+
+    public String getProgramme() {
         return programme;
     }
-    public void allocateCourse(Course course){
+
+    public void allocateCourse(Course course) {
         if (courses.size() < 5) {
             courses.add(course);
             course.addStudent(this);
@@ -61,12 +108,11 @@ public class Student extends JFrame {
         }
     }
 
-    public List<Course> getCourses(){
-
+    public List<Course> getCourses() {
         return courses;
     }
-    public Score getCourseScore(Course course){
 
+    public Score getCourseScore(Course course) {
         // Check if the student is enrolled in the specified course
         if (!courses.contains(course)) {
             throw new IllegalArgumentException("Student not enrolled in course.");
@@ -85,6 +131,6 @@ public class Student extends JFrame {
     public String[][] getResult(){
 
         return getResult();
-    }
+    }*/
 
 }

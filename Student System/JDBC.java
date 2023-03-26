@@ -9,9 +9,9 @@ import java.sql.SQLException;
 public class JDBC {
 
     final static String DRIVER = "org.mariadb.jdbc.Driver";
-    final static String DBURL = "jdbc:mariadb://localhost:3306/studentsystem";
+    final static String DBURL = "jdbc:mariadb://127.0.0.1:3306/studentsystem";
     final static String USER="root";
-    final static String KEY = "password";
+    final static String KEY = "Ud415zAs";
 
     private Connection conn;
     private Statement stmt;
