@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
 
-
 public class Login extends JFrame {
     private JPanel loginPanel;
     private JLabel regNoLabel;
@@ -21,29 +20,24 @@ public class Login extends JFrame {
         getContentPane().setBackground(Color.BLACK);
 
         //login panel
-
         loginPanel = new JPanel();
         loginPanel.setLayout(new BoxLayout(loginPanel, BoxLayout.Y_AXIS));
 
         //Add regfiels and label
-
         regNoLabel = new JLabel("Registration number");
         regNoLabel.setIcon(new ImageIcon("Icons/regNo.png"));
         loginPanel.add(regNoLabel);
         regNoField = new JTextField(20);
         loginPanel.add(regNoField);
 
-
         //Add passwrd fields and labels
-
         passwrdLabel = new JLabel("Password:");
         passwrdLabel.setIcon(new ImageIcon("Icons/key.png"));
         loginPanel.add(passwrdLabel);
         passwrdField = new JPasswordField(20);
         loginPanel.add(passwrdField);
 
-        //login
-        //button
+        //login button
         loginButton = new JButton("Login");
         loginPanel.add(loginButton);
         loginButton.addActionListener(new ActionListener() {
@@ -57,15 +51,15 @@ public class Login extends JFrame {
                     Homepage homepagewindow = new Homepage();
                     homepagewindow.setVisible(true);
                     dispose();  //close login
-                }else {
-                    JOptionPane.showMessageDialog(Login.this, "Invaliid regNo or Password");
+                } else {
+                    JOptionPane.showMessageDialog(Login.this, "Invalid regNo or Password");
                 }
             }
         });
 
         //register option
         registerLabel = new JLabel("Don't have an account?");
-        loginPanel.add((registerLabel));
+        loginPanel.add(registerLabel);
         registerButton = new JButton("Register");
         loginPanel.add(registerButton);
         registerButton.addActionListener(e -> {
@@ -74,39 +68,35 @@ public class Login extends JFrame {
 
         });
 
-
-         add(loginPanel);
-         pack();
-         setVisible(true);
-
+        add(loginPanel);
+        pack();
+        setVisible(true);
     }
+
     // Method to authenticate user
     private boolean authenticateUser(String regNo, String passwrd) {
         boolean isValid = false;
         try {
-
             Connection conn = new JDBC().connection();
 
-            PreparedStatement stmt = conn.prepareStatement("SELECT COUNT(*) FROM student WHERE reg_no = ? AND password = ?");
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM student WHERE regNo = ? AND password = ?");
             stmt.setString(1, regNo);
             stmt.setString(2, passwrd);
 
-
             ResultSet rs = stmt.executeQuery();
-            rs.next();
-            if (rs.getInt(1) > 0) {
+            if (rs.next()) {
                 isValid = true;
             }
-
+            else{
+                JOptionPane.showMessageDialog(null,"Invalid Credentials!");
+                System.exit(0);            }
 
             rs.close();
             stmt.close();
             conn.close();
         } catch (SQLException ex) {
-            // Handle any errors
             ex.printStackTrace();
         }
         return isValid;
     }
-
 }
