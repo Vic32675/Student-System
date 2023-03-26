@@ -35,8 +35,9 @@ public class Book extends JFrame{
         bookPanel = new JPanel();
         bookPanel.setLayout(new BoxLayout(bookPanel, BoxLayout.Y_AXIS));
 
-        searchField = new JTextField();
+        searchField = new JTextField(20);
         searchButton = new JButton("Search");
+        searchButton.setIcon(new ImageIcon("Icons/search.png"));
         bookPanel.add(searchField);
         bookPanel.add(searchButton);
         searchButton.addActionListener(new ActionListener() {
@@ -61,37 +62,44 @@ public class Book extends JFrame{
         });
 
         titleLabel = new JLabel("Title:");
-        titleField = new JTextField(100);
+        titleLabel.setIcon(new ImageIcon("Icons/title.png"));
+        titleField = new JTextField(50);
         bookPanel.add(titleLabel);
         bookPanel.add(titleField);
 
         authorLabel = new JLabel("Author:");
-        authorField = new JTextField(100);
+        authorLabel.setIcon(new ImageIcon("Icons/author.png"));
+        authorField = new JTextField(50);
         bookPanel.add(authorLabel);
         bookPanel.add(authorField);
 
         editionLabel = new JLabel("Edition");
-        editionField = new JTextField("20");
+        editionLabel.setIcon(new ImageIcon("Icons/edition.png"));
+        editionField = new JTextField(20);
         bookPanel.add(editionLabel);
         bookPanel.add(editionField);
 
         versionLabel = new JLabel("Version:");
+        versionLabel.setIcon(new ImageIcon("Icons/version.png"));
         versionField = new JTextField(20);
         bookPanel.add(versionLabel);
         bookPanel.add(versionField);
 
         yearLabel = new JLabel("Year:");
+        yearLabel.setIcon(new ImageIcon("Icons/year.png"));
         yearField = new JTextField(4);
         bookPanel.add(yearLabel);
         bookPanel.add(yearField);
 
         availableLabel = new JLabel("Availability");
+        availableLabel.setIcon(new ImageIcon("Icons/available.png"));
         availableField = new JTextField(10);
         bookPanel.add(availableLabel);
         bookPanel.add(availableField);
 
         borrowedLabel = new JLabel("Borrowed Status");
-        borrowedField = new JTextField();
+        borrowedLabel.setIcon(new ImageIcon("Icons/borrow.png"));
+        borrowedField = new JTextField(10);
         bookPanel.add(borrowedLabel);
         bookPanel.add(borrowedField);
 
@@ -149,14 +157,14 @@ public class Book extends JFrame{
         borrowedField.setText(Integer.toString(borrowedCopies));
     }
     public Book searchBookByTitle(String title) {
-        // Iterate through a collection of books to find the book with the matching title
+
         for (Book book : books) {
             if (book.getTitle().equals(title)) {
-                // Return the book if it's found
+
                 return book;
             }
         }
-        // Return null if the book is not found
+
         return null;
     }
 
