@@ -1,3 +1,4 @@
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -87,6 +88,7 @@ public class Login extends JFrame {
             if (rs.next()) {
                 isValid = true;
             }
+
             else{
                 JOptionPane.showMessageDialog(null,"Invalid Credentials!");
                 System.exit(0);            }
@@ -99,4 +101,4 @@ public class Login extends JFrame {
         }
         return isValid;
     }
-}
+

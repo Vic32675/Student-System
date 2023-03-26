@@ -21,6 +21,11 @@ public class Lecturer extends JFrame {
         viewLecturerPanel.add(yourLecturersLabel);
 
 
+        add(viewLecturerPanel);
+        pack();
+        setVisible(true);
+
+
     }
     public Lecturer(String lecId, String programme, String name, int age){
         this.person = new Person(name, age);
